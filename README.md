@@ -1,14 +1,13 @@
 # stolostron
 Getting started with Red Hat Advanced Cluster Management for Kubernetes?  This repo contains tools, integrations, and suggestions to jumpstart your multicluster and multicloud presence!
 
-## Day 0
+Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operations
+
+## Day 1
 
 | Description | Link |
 |-------------|------|
 | Bare metal Zero Touch Provisioning | https://github.com/jparrill/ztp-the-hard-way |
-
-## Day 1
-
 
 ## Day 2
 
