@@ -8,6 +8,8 @@ Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operati
 | Description | Link |
 |-------------|------|
 | Sizing Documentation | TBD |
+| Results from 1k SNO Scale Testing | TBD |
+| Results from 2k SNO Scale Testing | TBD |
 
 ## Day 1
 
