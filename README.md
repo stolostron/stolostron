@@ -23,4 +23,4 @@ Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operati
 |-------------|------|
 | A comprehensive collection of managing your fleet using RHACM Policies | [https://github.com/stolostron/policy-collection](https://github.com/stolostron/policy-collection) |
 | Collection of Kustomize bases | [https://github.com/redhat-cop/gitops-catalog](https://github.com/redhat-cop/gitops-catalog) |
-| Operate First - [https://github.com/operate-first/apps](https://github.com/operate-first/apps) |
+| Operate First | [https://github.com/operate-first/apps](https://github.com/operate-first/apps) |
