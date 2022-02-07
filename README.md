@@ -3,6 +3,12 @@ Getting started with Red Hat Advanced Cluster Management for Kubernetes?  This r
 
 Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operations
 
+## Day 0
+
+| Description | Link |
+|-------------|------|
+| Sizing Documentation | TBD |
+
 ## Day 1
 
 | Description | Link |
