@@ -25,6 +25,6 @@ Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operati
 | Collection of Kustomize bases | [https://github.com/redhat-cop/gitops-catalog](https://github.com/redhat-cop/gitops-catalog) |
 | Operate First | [https://github.com/operate-first/apps](https://github.com/operate-first/apps) |
 | RHACM: How to configure an ApplicationSet to deploy Policies? | [https://access.redhat.com/solutions/6553071](https://access.redhat.com/solutions/6553071) |
-| RHACM Can Policies also be applied via Gitops when using ArgoCD? | https://access.redhat.com/solutions/6435991 |
-| RHACM what is the Polling Interval in ArgoCD-Applications compared to RHACM-Applications? | https://access.redhat.com/solutions/6390571 |
+| RHACM: Can Policies also be applied via Gitops when using ArgoCD? | https://access.redhat.com/solutions/6435991 |
+| RHACM: What is the Polling Interval in ArgoCD-Applications compared to RHACM-Applications? | https://access.redhat.com/solutions/6390571 |
 
