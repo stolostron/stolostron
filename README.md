@@ -5,7 +5,7 @@ Getting started with Red Hat Advanced Cluster Management for Kubernetes?  This r
 
 | Description | Link |
 |-------------|------|
-| https://github.com/jparrill/ztp-the-hard-way |
+| Bare metal deployment | https://github.com/jparrill/ztp-the-hard-way |
 
 ## Day 1
 
