@@ -1,8 +1,6 @@
 # stolostron
 Getting started with Red Hat Advanced Cluster Management for Kubernetes?  This repo contains tools, integrations, and suggestions to jumpstart your multicluster and multicloud presence!
 
-Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operations
-
 ## Day 0
 
 | Description | Link |
@@ -31,3 +29,6 @@ Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operati
 | RHACM: Can Policies also be applied via Gitops when using ArgoCD? | https://access.redhat.com/solutions/6435991 |
 | RHACM: What is the Polling Interval in ArgoCD-Applications compared to RHACM-Applications? | https://access.redhat.com/solutions/6390571 |
 
+Reference: 
+
+https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operations
