@@ -16,6 +16,7 @@ Reference: https://www.redhat.com/en/blog/how-does-red-hat-support-day-2-operati
 | Description | Link |
 |-------------|------|
 | Bare metal Zero Touch Provisioning | https://github.com/jparrill/ztp-the-hard-way |
+| OpenShift 4 Azure IPI installation | https://github.com/rcarrata/ocp4-azure-ipi |
 
 ## Day 2
 
