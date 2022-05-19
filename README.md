@@ -15,7 +15,8 @@ Getting started with Red Hat Advanced Cluster Management for Kubernetes?  This r
 |-------------|------|------------|
 | Bare metal Zero Touch Provisioning | https://github.com/jparrill/ztp-the-hard-way | ACM, GITOPS |
 | OpenShift 4 Azure IPI installation | https://github.com/stolostron/ocp4-azure-ipi | AAP |
-| ACM managed service Deployment | https://github.com/stolostron/acm-aap-aas-operations | AAP, ACM, GITOPS | 
+| ACM managed service Deployment | https://github.com/stolostron/acm-aap-aas-operations | AAP, ACM, GITOPS |
+| Openshift-Pipeline ACM Pipelines | https://github.com/stolostron/openshift-pipelines | Pipelines |
 
 ## Day 2
 
