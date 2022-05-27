@@ -1,8 +1,8 @@
-## Getting Started with Development Preview Content
+## Getting Started with Development Preview (dev-preview) Content 🚀
 
-Welcome to the hub for Red Hat Advanced Cluster Management Developement preview content!  Many of our unique and upcoming features start as Development Preview content, available through the stolostron community for feedback and tight iteration as we discover and adapt to new use cases and usage patterns.   
+Welcome to the landing page for Red Hat Advanced Cluster Management Developement preview content!  Many of our unique and upcoming features start as Development Previews, available through the `stolostron` community for feedback and tight iteration as we discover and adapt to new customer use cases and usage patterns from our users.   
 
-Below, you'll find a list of current dev-preview content complete with installation and usage instructions!  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**. 
+Below, you'll find a list of current dev-preview content complete with installation and usage instructions.  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**. 
 Features on Development Preview
 - [Ansible Collection & Inventory Plugin](#Ansible-Collection-Inventory-Plugin)
 - [Search v2 - Odyssey](#Search-v2-Odyssey)
@@ -12,7 +12,7 @@ Features on Development Preview
 - [ACM Add-on for Multicluster Mesh](#ACM-Add-on-for-Multicluster-Mesh)
 ## Ansible Collection & Inventory Plugin
 
-This Ansible Collection allows your operations teams to stay in their comfort zone and leverage Ansible to orchestrate multicluster operations in kubernetes with Red Hat Advanced Cluster Management for Kubernetes and Multicluster Engine. This Ansible collection also includes an inventory plugin, which registers all ACM-managed cluters within the Ansible Inventory, allowing you to use your entire toolbelt of Ansible collections conventiently agiainst your fleet of clusters.  
+This Ansible Collection allows your operations teams to stay in their comfort zone and leverage Ansible to orchestrate multicluster operations in kubernetes with Red Hat Advanced Cluster Management for Kubernetes (RHACM) and Multicluster Engine (MCE). This Ansible collection also includes an inventory plugin, which registers all ACM-managed cluters within the Ansible Inventory, allowing you to use your entire toolbelt of Ansible collections conventiently agiainst your fleet of clusters.  
 
 **Repository**: [stolostron/ocmplus.cm](https://github.com/stolostron/ocmplus.cm)
 
@@ -36,11 +36,11 @@ You can find the installation instructions for Search-v2 in the [operator repo's
 
 ### Usage
 
-Search-v2 aims to improve the search experience while maintaining the current user experience.  Search v2's usage should differ minimally from search v1 from the user-perspective, but scale and resiliance improvements can be found throughout the service backend!
+Search-v2 aims to improve the search experience while maintaining the current user experience.  Search v2's usage should differ minimally from search v1 from the user-perspective, but scale and resiliance improvements can be found throughout the service backend.
 
 ## Configurable Collection in Search
 
-You can now configure search parameters to increase response times and scale by reducing unncessary data collection, prevent the collection of secure or georesidency-limited information, and reduce the footprint of the search services on your hub cluster.  
+You can now configure search parameters to increase response times and scale by reducing unncessary data collection, prevent the collection of highly secure or georesidency-limited information, and reduce the footprint of the search services on your hub cluster.  
 
 **Repository**: [stolostron/search-collector](https://github.com/stolostron/search-collector)
 
