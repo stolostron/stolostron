@@ -64,7 +64,7 @@ Hub of hubs enables users to manage more cluster than what an individual Hub can
 
 ### Installation
 
-Installation instructions can be found in the [deployment section of the README](https://github.com/stolostron/hub-of-hubs#deployment)!
+Installation instructions can be found in the [deployment section of the repo](https://github.com/stolostron/hub-of-hubs/tree/main/deploy)!
 
 ### Usage
 
