@@ -46,7 +46,7 @@ You can now configure search parameters to increase response times and scale by 
 
 ### Installation
 
-Deployment and configuration is overviewed in the [repository's README](https://github.com/stolostron/search-collector#readme).  
+Deployment and configuration is overviewed in the [repository's README](https://github.com/stolostron/search-collector#dev-preview-search-configurable-collection).  
 
 ### Usage
 
