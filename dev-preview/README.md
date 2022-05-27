@@ -3,7 +3,13 @@
 Welcome to the hub for Red Hat Advanced Cluster Management Developement preview content!  Many of our unique and upcoming features start as Development Preview content, available through the stolostron community for feedback and tight iteration as we discover and adapt to new use cases and usage patterns.   
 
 Below, you'll find a list of current dev-preview content complete with installation and usage instructions!  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**. 
-
+Features on Development Preview
+- [Ansible Collection & Inventory Plugin](#Ansible-Collection-Inventory-Plugin)
+- [Search v2 - Odyssey](#Search-v2-Odyssey)
+- [Configurable Collection in Search](#Configurable-Collection-in-Search)
+- [Dynamic Metric Collection (Custom Metrics Collectoin)](#Dynamic-Metric-Collection-Custom Metrics Collectoin)
+- [Hub of Hubs](#Hub-of-Hubs)
+- [ACM Add-on for Multicluster Mesh](#ACM-Add-on-for-Multicluster-Mesh)
 ## Ansible Collection & Inventory Plugin
 
 This Ansible Collection allows your operations teams to stay in their comfort zone and leverage Ansible to orchestrate multicluster operations in kubernetes with Red Hat Advanced Cluster Management for Kubernetes and Multicluster Engine. This Ansible collection also includes an inventory plugin, which registers all ACM-managed cluters within the Ansible Inventory, allowing you to use your entire toolbelt of Ansible collections conventiently agiainst your fleet of clusters.  
