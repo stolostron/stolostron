@@ -3,7 +3,7 @@ Getting started with Red Hat Advanced Cluster Management for Kubernetes?  Ready 
 
 ## Looking for Development Preview Content?
 
-If you're looking to try out our Development Preview content - you're in the right place!  Visit our [Development Preview Section](./dev-preview/) to discover, install, use, and provide feedback for our development preview content.  Your feedback will help us shape the future of these features!
+If you're looking to try out our Development Preview content - you're in the right place!  Visit our [Development Preview Section](./dev-preview/) to discover, install, use, and provide feedback for our new features and capabilities.  Your feedback is most welcome and will help us shape the future of these features!
 
 ## Getting Started Resources
 
