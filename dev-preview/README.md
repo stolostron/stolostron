@@ -5,7 +5,7 @@ Welcome to the hub for Red Hat Advanced Cluster Management Development preview c
 Below, you'll find a list of current dev-preview content complete with installation and usage instructions!  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**. 
 Features on Development Preview
 - [Ansible Collection & Inventory Plugin](#Ansible-Collection-Inventory-Plugin)
-- [Search v2 - Odyssey](#Search-v2-Odyssey)
+- [Search-v2 - Odyssey](#Search-v2-Odyssey)
 - [Configurable Collection in Search](#Configurable-Collection-in-Search)
 - [Dynamic Metric Collection (Custom Metrics Collectoin)](#Dynamic-Metric-Collection-Custom Metrics Collectoin)
 - [Hub of Hubs](#Hub-of-Hubs)
@@ -24,9 +24,9 @@ Installation instructions can be found in the [repo](https://github.com/stolostr
 
 Usage instructions can be found in the [repo](https://github.com/stolostron/ocmplus.cm) and will eventually be found in [Ansible Galaxy](https://galaxy.ansible.com/).  
 
-## Search v2 - Odyssey
+## Search-v2 - Odyssey
 
-Fueled by open source technology, the next evolution of our search capability allows fleet admins, SREs, and architects to quickly explore their multicluster landscape.  Search v2 brings a re-architected backbone facilitating greater scale and resiliance within the service.  
+Fueled by open source technology, the next evolution of our search capability allows fleet admins, SREs, and architects to quickly explore their multicluster landscape.  Search-v2 brings a re-architected backbone facilitating greater scale and resiliance within the service.  
 
 **Repository**: [stolostron/search-v2-operator](https://github.com/stolostron/search-v2-operator)
 
@@ -36,7 +36,7 @@ You can find the installation instructions for Search-v2 in the [operator repo's
 
 ### Usage
 
-Search-v2 aims to improve the search experience while maintaining the current user experience.  Search v2's usage should differ minimally from search v1 from the user-perspective, but scale and resiliance improvements can be found throughout the service backend!
+Search-v2 aims to improve the search experience while maintaining the current user experience.  Search-v2's usage should differ minimally from search v1 from the user-perspective, but scale and resiliance improvements can be found throughout the service backend!
 
 ## Configurable Collection in Search
 
