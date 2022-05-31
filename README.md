@@ -1,5 +1,5 @@
 # Welcome to the Stolostron Project
-Getting started with Red Hat Advanced Cluster Management for Kubernetes?  You're in the right place!  The Stolostron project houses the projects built into [Red Hat Advanced Cluster Management for Kubernetes](https://www.redhat.com/en/technologies/management/advanced-cluster-management).  This repo contains tools, integrations, and suggestions to jumpstart your multicluster and multicloud presence!
+Getting started with Red Hat Advanced Cluster Management for Kubernetes?  Ready to manage your fleet of OpenShift and Kubernetes clusters?  You're in the right place!  The Stolostron project houses the projects built into [Red Hat Advanced Cluster Management for Kubernetes](https://www.redhat.com/en/technologies/management/advanced-cluster-management).  This repo contains tools, integrations, and suggestions to jumpstart your multicluster and multicloud presence!
 
 ## Looking for Development Preview Content?
 
