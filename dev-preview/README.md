@@ -1,16 +1,32 @@
 ## Getting Started with Development Preview Content
 
-Welcome to the hub for Red Hat Advanced Cluster Management Development preview content!  Many of our unique and upcoming features start as Development Preview content, available through the stolostron community for feedback and tight iteration as we discover and adapt to new use cases and usage patterns.   
+Welcome to the hub for Red Hat Advanced Cluster Management Development preview content!  Many of our unique and upcoming features start as Development Preview content, available through the stolostron community for feedback and tight iteration as we discover and adapt to new use cases and usage patterns.
 
 Below, you'll find a list of current dev-preview content complete with installation and usage instructions!  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**. 
 
 Features on Development Preview
-- [Ansible Collection & Inventory Plugin](#Ansible-Collection--Inventory-Plugin)
-- [Search-v2 - Odyssey](#Search-v2---Odyssey)
-- [Configurable Collection in Search](#Configurable-Collection-in-Search)
-- [Dynamic Metric Collection (Custom Metrics Collection)](#Dynamic-Metric-Collection-Custom-Metrics-Collection)
-- [Hub of Hubs](#Hub-of-Hubs)
-- [ACM Add-on for Multicluster Mesh](#ACM-Add-on-for-Multicluster-Mesh)
+
+- [Getting Started with Development Preview Content](#getting-started-with-development-preview-content)
+- [Ansible Collection & Inventory Plugin](#ansible-collection--inventory-plugin)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Search-v2 - Odyssey](#search-v2---odyssey)
+  - [Installation](#installation-1)
+  - [Usage](#usage-1)
+- [Configurable Collection in Search](#configurable-collection-in-search)
+  - [Installation](#installation-2)
+  - [Usage](#usage-2)
+- [Dynamic Metric Collection (Custom Metrics Collectoin)](#dynamic-metric-collection-custom-metrics-collectoin)
+- [Hub of Hubs](#hub-of-hubs)
+  - [Installation](#installation-3)
+  - [Usage](#usage-3)
+- [ACM Add-on for Multicluster Mesh](#acm-add-on-for-multicluster-mesh)
+  - [Installation](#installation-4)
+  - [Usage](#usage-4)
+- [Hosted Control Planes with MCE/ACM](#hosted-control-planes-with-mceacm)
+  - [Installation](#installation-5)
+  - [Usage](#usage-5)
+
 ## Ansible Collection & Inventory Plugin
 
 This Ansible Collection allows your operations teams to stay in their comfort zone and leverage Ansible to orchestrate multicluster operations in kubernetes with Red Hat Advanced Cluster Management for Kubernetes and Multicluster Engine. This Ansible collection also includes an inventory plugin, which registers all ACM-managed cluters within the Ansible Inventory, allowing you to use your entire toolbelt of Ansible collections conventiently agiainst your fleet of clusters.  
@@ -87,3 +103,24 @@ Installation is covered in the [Getting Started section of the README](https://g
 ### Usage
 
 Usage and use-case documentation can be found in the [How to use section of the README](https://github.com/stolostron/multicluster-mesh-addon#how-to-use).  
+
+
+## Hosted Control Planes with MCE/ACM
+
+Based on the [HyperShift project](https://hypershift-docs.netlify.app/), OpenShift with hosted control planes is a feature available as an add-on through the multicluster engine for kubernetes. Hosted control planes decouple the control-plane from the data-plane (workers), separates network domains, and provides a single pane of glass for easily operating your fleet of clusters. Now the control plane is just another workload, the same rich stack used to monitor, secure, and operate your applications can now be used for the control plane.
+
+This feature is available as dev-preview for the following providers:
+
+- Azure
+- Baremetal (with Assisted-agent flow)
+- KubeVirt
+
+**Repository**: [stolostron/hypershift-deployment-controller](https://github.com/stolostron/hypershift-deployment-controller)
+
+### Installation
+
+Installation is covered in the [Provision Hypershift Clusters by MCE section](https://github.com/stolostron/hypershift-deployment-controller/blob/main/docs/provision_hypershift_clusters_by_mce.md).  
+
+### Usage
+
+Usage and use-case documentation can be found in the [Hosted Control Plane Clusters section of the doc](https://github.com/stolostron/hypershift-deployment-controller/blob/main/docs/content.md).  
