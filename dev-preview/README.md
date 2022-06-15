@@ -69,9 +69,19 @@ Deployment and configuration is overviewed in the [repository's README](https://
 
 The process for filtering resources is outlined [here](https://github.com/stolostron/search-collector#dev-preview-search-configurable-collection), in the repo's readme under "Dev Preview (Search Configurable Collection)".  
 
-## Dynamic Metric Collection (Custom Metrics Collectoin)
+## Dynamic Metric Collection (Custom Metrics Collection)
 
-Details Coming Soon!
+Dynamic metrics collection refers to the ability to initiate metrics collection on managed clusters based on specific conditions. Collecting metrics consumes resources on your hub cluster. This is especially important when you considering metric collection across a large fleet of clusters. It makes sense to start collecting certain metrics only when they are likely going to be needed optimally using resources. When problems occur on a managed cluster, it may be necessary to collect metrics at a higher rate to help analyze the problems. Dynamic metrics collection enables both these use cases. Metrics collection stops automatically 15 minutes after the underlying condition no longer exists.
+
+**Repository**: [stolostron/multicluster-observability-operator](https://github.com/stolostron/multicluster-observability-operator)
+
+### Installation
+
+No special installation is necessary to use this feature.
+
+### Usage
+
+Usage instructions and examples can be found in the [here](https://github.com/stolostron/multicluster-observability-operator/tree/main/dev-previews/dynamic-metrics-collection)
 
 ## Hub of Hubs
 
