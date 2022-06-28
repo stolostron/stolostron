@@ -16,16 +16,18 @@ Features on Development Preview
 - [Configurable Collection in Search](#configurable-collection-in-search)
   - [Installation](#installation-2)
   - [Usage](#usage-2)
-- [Dynamic Metric Collection (Custom Metrics Collectoin)](#dynamic-metric-collection-custom-metrics-collectoin)
-- [Hub of Hubs](#hub-of-hubs)
+- [Dynamic Metric Collection (Custom Metrics Collection)](#dynamic-metric-collection-custom-metrics-collection)
   - [Installation](#installation-3)
   - [Usage](#usage-3)
-- [ACM Add-on for Multicluster Mesh](#acm-add-on-for-multicluster-mesh)
+- [Hub of Hubs](#hub-of-hubs)
   - [Installation](#installation-4)
   - [Usage](#usage-4)
-- [Hosted Control Planes with MCE/ACM](#hosted-control-planes-with-mceacm)
+- [ACM Add-on for Multicluster Mesh](#acm-add-on-for-multicluster-mesh)
   - [Installation](#installation-5)
   - [Usage](#usage-5)
+- [Hosted Control Planes with MCE/ACM](#hosted-control-planes-with-mceacm)
+  - [Installation](#installation-6)
+  - [Usage](#usage-6)
 
 ## Ansible Collection & Inventory Plugin
 
