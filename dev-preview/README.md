@@ -31,17 +31,17 @@ Features on Development Preview
 
 ## Ansible Collection & Inventory Plugin
 
-This Ansible Collection allows your operations teams to stay in their comfort zone and leverage Ansible to orchestrate multicluster operations in kubernetes with Red Hat Advanced Cluster Management for Kubernetes and Multicluster Engine. This Ansible collection also includes an inventory plugin, which registers all ACM-managed cluters within the Ansible Inventory, allowing you to use your entire toolbelt of Ansible collections conventiently agiainst your fleet of clusters.  
+This Ansible Collection allows your operations teams to stay in their comfort zone and leverage Ansible to orchestrate multicluster operations in kubernetes with Red Hat Advanced Cluster Management for Kubernetes and Multicluster Engine. This Ansible collection also includes an inventory plugin, which registers all ACM-managed cluters within the Ansible Inventory, allowing you to use your entire toolbelt of Ansible collections conventiently against your fleet of clusters.
 
-**Repository**: [stolostron/ocmplus.cm](https://github.com/stolostron/ocmplus.cm)
+**Repository**: [stolostron/ansible-collection.core](https://github.com/stolostron/ansible-collection.core)
 
 ### Installation
 
-Installation instructions can be found in the [repo](https://github.com/stolostron/ocmplus.cm) and the collection will eventually target [Ansible Galaxy](https://galaxy.ansible.com/).  
+Installation instructions can be found in the [repo](https://github.com/stolostron/ansible-collection.core) and the collection can be found on [Ansible Galaxy](https://galaxy.ansible.com/stolostron/core).
 
 ### Usage
 
-Usage instructions can be found in the [repo](https://github.com/stolostron/ocmplus.cm) and will eventually be found in [Ansible Galaxy](https://galaxy.ansible.com/).  
+Usage instructions can be found in the [repo](https://github.com/stolostron/ansible-collection.core) and the collection can be found on [Ansible Galaxy](https://galaxy.ansible.com/stolostron/core).
 
 ## Search-v2 - Odyssey
 
