@@ -123,11 +123,10 @@ Based on the [HyperShift project](https://hypershift-docs.netlify.app/), OpenShi
 
 This feature is available as dev-preview for the following providers:
 
-- Azure
-- Baremetal (with Assisted-agent flow)
-- KubeVirt
+- [Azure](https://hypershift-docs.netlify.app/how-to/azure/create-azure-cluster/)
+- [KubeVirt](https://hypershift-docs.netlify.app/how-to/kubevirt/create-kubevirt-cluster/)
 
-**Repository**: [stolostron/hypershift-deployment-controller](https://github.com/stolostron/hypershift-deployment-controller)
+**Repository**: [HyperShift Documentation](https://hypershift-docs.netlify.app/how-to/)
 
 ### Installation
 
