@@ -19,7 +19,7 @@ Features on Development Preview
 - [Dynamic Metric Collection (Custom Metrics Collection)](#dynamic-metric-collection-custom-metrics-collection)
   - [Installation](#installation-3)
   - [Usage](#usage-3)
-- [Hub of Hubs](#hub-of-hubs)
+- [Multicluster Global Hub](#multicluster-global-hub)
   - [Installation](#installation-4)
   - [Usage](#usage-4)
 - [ACM Add-on for Multicluster Mesh](#acm-add-on-for-multicluster-mesh)
@@ -85,19 +85,19 @@ No special installation is necessary to use this feature.
 
 Usage instructions and examples can be found in the [here](https://github.com/stolostron/multicluster-observability-operator/tree/main/dev-previews/dynamic-metrics-collection)
 
-## Hub of Hubs
+## Multicluster Global Hub
 
-Hub of hubs enables users to manage more cluster than what an individual Hub can support.  The user can create or import OCP clusters to the hub-of-hubs cluster as a leaf hub cluster.  The user can then deploy applications or policies in a single hub-of-hubs which will then propogate to all matched managed clusters.  
+Hub of hubs enables users to manage more cluster than what an individual Hub can support.  The user can create or import OCP clusters to the Global Hub cluster as a leaf hub cluster.  The user can then deploy applications or policies in a single Global Hub which will then propogate to all matched managed clusters.  
 
-**Repository**: [stolostron/hub-of-hubs](https://github.com/stolostron/hub-of-hubs)
+**Repository**: [stolostron/multicluster-global-hub](https://github.com/stolostron/multicluster-global-hub)
 
 ### Installation
 
-Installation instructions can be found in the [deployment section of the repo](https://github.com/stolostron/hub-of-hubs/tree/release-2.5/deploy)!
+Installation instructions can be found in the [deployment section of the repo](https://github.com/stolostron/multicluster-global-hub/tree/release-2.5/deploy)!
 
 ### Usage
 
-Usage instructions and examples can be found in the README, especially the [Getting Started Section](https://github.com/stolostron/hub-of-hubs#getting-started).  
+Usage instructions and examples can be found in the README, especially the [Getting Started Section](https://github.com/stolostron/multicluster-global-hub#getting-started).  
 
 ## ACM Add-on for Multicluster Mesh
 
