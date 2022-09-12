@@ -796,10 +796,10 @@ else
          imsg "All pre-checks are completed successfully."
       else
          if [[ "$annot_cat_src" == "$mce_cat_src" ]]; then
-            wmsg "An unnecessary mce-subscriont-spec annotation is present in the MCE resource."
+            wmsg "An unnecessary mce-subscription-spec annotation is present in the MCE resource."
             sug_unnnecessary_mce_sub_annotation "$mch_namespace" "$mch_name"
          else
-            emsg "An incorrect (and unnecessary) mce-subscriont-spec annotation is present in the MCH resource."
+            emsg "An incorrect (and unnecessary) mce-subscription-spec annotation is present in the MCH resource."
             sug_incorrect_mce_sub_annotation "$mch_namespace" "$mch_name" \
                "$annot_cat_src" "$mce_cat_src" "1"
          fi
@@ -811,12 +811,12 @@ else
             imsg ""
             imsg "All pre-checks are completed successfully."
          else
-            emsg "The mce-subscriont-spec annotation is the MCH resource is incorrect."
+            emsg "The mce-subscription-spec annotation is the MCH resource is incorrect."
             sug_incorrect_mce_sub_annotation "$mch_namespace" "$mch_name" \
                "$annot_cat_src" "$mce_cat_src" "0"
          fi
       else
-         emsg "The MCH resource is missing a required mce-subscriont-spec annotation."
+         emsg "The MCH resource is missing a required mce-subscription-spec annotation."
          sug_imissing_mce_sub_annotation "$mch_namespace" "$mch_name" "$mce_cat_src"
       fi
    fi
