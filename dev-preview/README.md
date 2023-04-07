@@ -28,6 +28,9 @@ Features on Development Preview
 - [Hosted Control Planes with MCE/ACM](#hosted-control-planes-with-mceacm)
   - [Installation](#installation-6)
   - [Usage](#usage-6)
+- [Finer-Grained Access Control to Observability Metrics](#finer-grained-access-control-to-observability-metrics)
+  - [Installation](#installation-7)
+  - [Usage](#usage-7)
 
 ## Ansible Collection & Inventory Plugin
 
@@ -135,3 +138,17 @@ Installation is covered in the [Provision Hypershift Clusters by MCE section](ht
 ### Usage
 
 Usage and use-case documentation can be found in the [Hosted Control Plane Clusters section of the doc](https://github.com/stolostron/hypershift-deployment-controller/blob/main/docs/content.md).  
+
+## Finer-Grained Access Control to Observability Metrics
+
+This feature provides the ability to control access to metrics collected from managed clusters at a namespace level granularity. The existing mechanism allows access control at a managed cluster level, this granularity is not sufficient when managed clusters are of large size and are shared by multiple teams or applications in the organization. In such cases, each team should gain access to only their team's metrics  and not all metrics collected from the managed-cluster.  Namespace level finer grained access control granularty enables configuring access to specific namespaces on the managed clusters thereby restricting a team member's metrics access to only those namespaces that belong to the team.
+
+**Repository**: [stolostron/multicluster-observability-operator/dev-preview-fine-grain-rbac](https://github.com/stolostron/multicluster-observability-operator/tree/dev-preview-fine-grain-rbac)
+
+### Installation
+
+Follow the installation instructions in the above to install MCO operator, no additional special installation steps are necessary for this feature
+
+### Usage
+
+Usage instructions and examples can be found in the [here](https://github.com/stolostron/multicluster-observability-operator/tree/dev-preview-fine-grain-rbac/dev-previews/fine-grain-rbac)
