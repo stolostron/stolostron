@@ -7,7 +7,7 @@ Below, you'll find a list of current dev-preview content complete with installat
 Features on Development Preview
 
 - [Getting Started with Development Preview Content](#getting-started-with-development-preview-content)
-- [Ansible Collection & Inventory Plugin](#ansible-collection--inventory-plugin)
+- [Ansible Collection \& Inventory Plugin](#ansible-collection--inventory-plugin)
   - [Installation](#installation)
   - [Usage](#usage)
 - [Search-v2 - Odyssey](#search-v2---odyssey)
@@ -127,7 +127,6 @@ Based on the [HyperShift project](https://hypershift-docs.netlify.app/), OpenShi
 This feature is available as dev-preview for the following providers:
 
 - [Azure](https://hypershift-docs.netlify.app/how-to/azure/create-azure-cluster/)
-- [KubeVirt](https://hypershift-docs.netlify.app/how-to/kubevirt/create-kubevirt-cluster/)
 
 **Repository**: [HyperShift Documentation](https://hypershift-docs.netlify.app/how-to/)
 
