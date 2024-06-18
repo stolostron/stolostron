@@ -31,6 +31,10 @@ Features on Development Preview
 - [Finer-Grained Access Control to Observability Metrics](#finer-grained-access-control-to-observability-metrics)
   - [Installation](#installation-7)
   - [Usage](#usage-7)
+- [Observability Instance Sizes](#observability-instance-sizes)
+  - [Installation](#installation-8)
+  - [Usage](#usage-8)
+
 
 ## Ansible Collection & Inventory Plugin
 
@@ -151,3 +155,32 @@ Follow the installation instructions in the above to install MCO operator, no ad
 ### Usage
 
 Usage instructions and examples can be found in the [here](https://github.com/stolostron/multicluster-observability-operator/tree/dev-preview-fine-grain-rbac/dev-previews/fine-grain-rbac)
+
+## Observability Instance Sizes
+
+This feature provides the ability to control the scale of your ACM Observability instance. The existing mechanism to scale up Observability resources in the hub is to use `AdvancedConfig` in MultiClusterObservability CR. But this requires the user to be familiar with the intricacies of the components within Observability (Thanos. AlertManager, Observatorium API, etc.).
+
+With Instance Sizes, users can now configure a set of resource requests across all their Observability components, sized proportionally, using a single field in their MCO CR, `InstanceSize`.
+
+The sizes currently supported are: minimal, default, small, medium, large, xLarge, 2xLarge and 4xLarge, which represents a linear scale of usage for ACM MCO.
+By default `InstanceSize` is set to `default`. This feature is entirely opt-in, and your existing `AdvancedConfig` will always override it.
+
+The sizes themselves proportionally size MCO components according to a practical scale of usage. Our estimates indicate a measure like below,
+
+| InstanceSize  | Active Timeseries Supported |
+|---------------|-----------------------------|
+| Minimal       | < 1 million                 |
+| Small         | 1 million                   |
+| Medium        | 5 million                   |
+| Large         | 10 million                  |
+| Xlarge        | 20 million                  |
+| 2xlarge       | 50 million                  |
+| 4xlarge       | 100 million                 |
+
+### Installation
+
+Follow the installation instructions in the above to install MCO operator, and ensure you have enough resources to support the particular size size.
+
+### Usage
+
+Simply set `InstanceSize` field on MCO CR to a value that would suit your monitoring needs.
