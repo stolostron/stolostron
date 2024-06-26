@@ -165,17 +165,20 @@ With Instance Sizes, users can now configure a set of resource requests across a
 The sizes currently supported are: minimal, default, small, medium, large, xLarge, 2xLarge and 4xLarge, which represents a linear scale of usage for ACM MCO.
 By default `InstanceSize` is set to `default`. This feature is entirely opt-in, and your existing `AdvancedConfig` will always override it.
 
-The sizes themselves proportionally size MCO components according to a practical scale of usage. Our estimates indicate a measure like below,
+The sizes themselves proportionally size MCO components according to a practical scale of usage. Our estimates indicate a measure like below (here total CPU/Memory are approximate request values for Hub Observability components),
 
-| InstanceSize  | Active Timeseries Supported |
-|---------------|-----------------------------|
-| Minimal       | < 1 million                 |
-| Small         | 1 million                   |
-| Medium        | 5 million                   |
-| Large         | 10 million                  |
-| Xlarge        | 20 million                  |
-| 2xlarge       | 50 million                  |
-| 4xlarge       | 100 million                 |
+| InstanceSize  | Active Timeseries Supported | Total CPU Request | Total Memory Request (GiB) |
+|---------------|-----------------------------|-------------------|----------------------------|
+| Minimal       | < 1 million                 |                 16|                          25|
+| Small         | 1 million                   |                 32|                          72|
+| Medium        | 5 million                   |                 55|                         137|
+| Large         | 10 million                  |                103|                         293|
+| Xlarge        | 20 million                  |                163|                         590|
+| 2xlarge       | 50 million                  |                222|                        1019|
+| 4xlarge       | 100 million                 |                337|                        2158|
+
+
+For details on how to size your cluster before enabling an InstanceSize, refer to this [spreadsheet](https://docs.google.com/spreadsheets/d/1ye8wDROJW2_VpR4imPtwXANJuBSWHCWKegoUzz-bWdU/edit?gid=0#gid=0).
 
 ### Installation
 
