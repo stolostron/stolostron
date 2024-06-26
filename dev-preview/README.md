@@ -169,6 +169,7 @@ The sizes themselves proportionally size MCO components according to a practical
 
 | InstanceSize  | Active Timeseries Supported | Total CPU Request | Total Memory Request (GiB) |
 |---------------|-----------------------------|-------------------|----------------------------|
+| Default       | < 200k                      |                  3|                          12|
 | Minimal       | < 1 million                 |                 16|                          25|
 | Small         | 1 million                   |                 32|                          72|
 | Medium        | 5 million                   |                 55|                         137|
