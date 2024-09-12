@@ -18,6 +18,7 @@ Features on Development Preview
 - [Observability Instance Sizes](#observability-instance-sizes)
   - [Installation](#installation-8)
   - [Usage](#usage-8)
+- [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
 
 
 ## Ansible Collection & Inventory Plugin
@@ -81,6 +82,13 @@ Follow the installation instructions in the above to install MCO operator, and e
 
 Simply set `InstanceSize` field on MCO CR to a value that would suit your monitoring needs.
 
+## Global Hub Integration with Red Hat Advanced Cluster Security
+
+This feature adds to the Global Hub the capability to aggregate data from the
+Red Hat Advanced Cluster Security instances that run in the managed hubs. The
+aggregated data is available in a new _Security Violations_ dashboard. For more
+details and configuration instructions see the Global Hub documentation
+[here](https://github.com/stolostron/multicluster-global-hub/blob/main/doc/dev-preview.md#enable-rhacs-integration).
 
 # Graduated features
 
