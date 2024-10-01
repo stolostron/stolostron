@@ -1,0 +1,12 @@
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+#  annotations:
+#    installer.open-cluster-management.io/mce-subscription-spec: '{"source": "community-operators"}'
+  name: multiclusterhub
+  namespace: stolostron
+## NOT USED ##
+spec:
+#  imagePullSecret: multiclusterhub-operator-pull-secret
+  availabilityConfig: Basic
+  enableClusterBackup: false

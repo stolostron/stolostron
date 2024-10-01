@@ -11,10 +11,8 @@ If you're looking to try out our Development Preview content - you're in the rig
 
 | Description | Link |
 |-------------|------|
-| Sizing Documentation | TBD |
-| Results from 1k SNO Scale Testing | TBD |
-| Results from 2k SNO Scale Testing | TBD |
-
+| Sizing Documentation | [link](https://github.com/stolostron/capacity-planning?tab=readme-ov-file#acm-observability-sizing) |
+| Advanced Cluster Management for Kubernetes community operator | [/community-acm](./community-acm) |
 ### Day 1
 
 GITOPS is short for Openshift-Gitops. Pipeline is short for Openshift-Pipelines. AAP is Ansible Automation Platform.
