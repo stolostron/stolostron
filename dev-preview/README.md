@@ -81,6 +81,25 @@ Follow the installation instructions in the above to install MCO operator, and e
 
 Simply set `InstanceSize` field on MCO CR to a value that would suit your monitoring needs.
 
+## Multicluster Global Hub Security Dashboard
+
+This feature enhances the multicluster global hub by adding a new dashboard within its Grafana instance, which aggregates security data from various [Red Hat Advanced Cluster Security for Kubernetes](https://www.redhat.com/en/technologies/cloud-computing/openshift/advanced-cluster-security-kubernetes) (RHACS) instances across managed clusters. This allows users to utilize the multicluster global hub to gain a comprehensive overview of the security status of their managed clusters.
+
+For more information, see - [enable-rhacs-integration](https://github.com/stolostron/multicluster-global-hub/blob/main/doc/dev-preview.md#enable-rhacs-integration).
+
+**Repository**: [stolostron/multicluster-global-hub](https://github.com/stolostron/multicluster-global-hub).
+
+### Installation
+
+RHACS installation required.
+
+### Usage
+
+Usage instructions can be found in - [enable-rhacs-integration](https://github.com/stolostron/multicluster-global-hub/blob/main/doc/dev-preview.md#enable-rhacs-integration).
+
+### Dashboard Preview:
+
+![RHACS Security Violations Dashboard](https://github.com/stolostron/multicluster-global-hub/blob/main/doc/images/rhacs-global-hub-dashboard.png)
 
 # Graduated features
 
