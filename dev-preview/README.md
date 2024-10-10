@@ -4,7 +4,7 @@ Links: [Release-ACM-2.11/MCE-2.6](https://github.com/stolostron/stolostron/tree/
 
 Welcome to the hub for Red Hat Advanced Cluster Management Development preview content!  Many of our unique and upcoming features start as Development Preview content, available through the stolostron community for feedback and tight iteration as we discover and adapt to new use cases and usage patterns.
 
-Below, you'll find a list of current dev-preview content complete with installation and usage instructions!  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**. 
+Below, you'll find a list of current dev-preview content complete with installation and usage instructions!  **Don't forget to give us feedback on our dev-preview content at acm-contact@redhat.com**.
 
 Features on Development Preview
 
@@ -13,12 +13,14 @@ Features on Development Preview
   - [Installation](#installation)
   - [Usage](#usage)
 - [Dynamic Metric Collection (Custom Metrics Collection)](#dynamic-metric-collection-custom-metrics-collection)
+  - [Installation](#installation-1)
+  - [Usage](#usage-1)
+- [Observability Instance Sizes](#observability-instance-sizes)
+  - [Installation](#installation-2)
+  - [Usage](#usage-2)
+- [Edge Management](#edge-management)
   - [Installation](#installation-3)
   - [Usage](#usage-3)
-- [Observability Instance Sizes](#observability-instance-sizes)
-  - [Installation](#installation-8)
-  - [Usage](#usage-8)
-
 
 ## Ansible Collection & Inventory Plugin
 
@@ -81,25 +83,38 @@ Follow the installation instructions in the above to install MCO operator, and e
 
 Simply set `InstanceSize` field on MCO CR to a value that would suit your monitoring needs.
 
+## Edge Management
+
+Edge Management aims to provide simple, scalable, and secure management of edge servers or devices running image-mode RHEL / RHDE and applications on Podman or MicroShift. Users declare the operating system version, host configuration, and set of applications they want to run similarly to how they would on edge clusters with OpenShift. Edge Management further debuts fleet management, enabling users to specify device templates that Edge Management automatically rolls out to groups of devices and reports progress and health status on.
+
+**Repository**: [flightctl/flightctl](https://github.com/flightctl/flightctl)
+
+### Installation
+
+Installation instructions can be found in the [repo](https://github.com/flightctl/flightctl/blob/v0.2.2/docs/user/getting-started.md#flightctl-in-acm).
+
+### Usage
+
+Instructions for managing fleets can be found [here](https://github.com/flightctl/flightctl/blob/main/docs/user/managing-fleets.md) while for managing devices are available [here](https://github.com/flightctl/flightctl/blob/main/docs/user/managing-devices.md). One of the benefits of using Edge Management together with ACM is the ability to enroll devices running Red Hat Device Edge seamlessly.
 
 # Graduated features
 
 ### Hosted Control Planes with MCE (MCE 2.5)
-  
-  * Usage and use-case documentation can be found in the [Hosted Control Plane Clusters section of the doc](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html/multicluster_global_hub/index).  
+
+  * Usage and use-case documentation can be found in the [Hosted Control Plane Clusters section of the doc](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html/multicluster_global_hub/index).
 
 ### Multicluster Global Hub (ACM 2.9)
-  
+
   * Usage instructions and examples can be found in the [Getting Started Section](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html/clusters/cluster_mce_overview#hosted-control-planes-intro).
 
 ### Finer-Grained Access Control to Observability Metrics (ACM 2.11)
-  
+
   * Usage instructions and examples can be found [here](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html-single/observability/index#configure-fine-grain-rbac)
 
 ### Configurable Collection in Search (ACM 2.7)
-  
-  * The process for filtering resources is outlined [here](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html-single/observability/index#creating-search-configurable-collection).  
+
+  * The process for filtering resources is outlined [here](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.11/html-single/observability/index#creating-search-configurable-collection).
 
 ### Search-v2 - Odyssey
-  
-  * Search-v2 brings a re-architected backbone facilitating greater scale and resiliance within the service.  
+
+  * Search-v2 brings a re-architected backbone facilitating greater scale and resiliance within the service.
