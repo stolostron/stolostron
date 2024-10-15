@@ -106,6 +106,78 @@ aggregated data is available in a new _Security Violations_ dashboard. For more
 details and configuration instructions see the Global Hub documentation
 [here](https://github.com/stolostron/multicluster-global-hub/blob/main/doc/dev-preview.md#enable-rhacs-integration).
 
+## OpenShift Cluster API Operator
+
+The OpenShift Cluster API Operator is a Kubernetes Operator built to enable cluster administrators to manage the lifecycle of Cluster API providers. Specifically, it supports lifecycle management of ROSA Hosted Control Plane (HCP) clusters within a ACM/MCE cluster using a declarative approach. Its goal is to enhance the user experience in deploying and managing ROSA HCP (and ARO HCP in future), simplifying daily tasks (upgrades & node management) and streamlining automation workflows through GitOps.
+
+OpenShift Cluster API Operator helm chart uses the redhat-registry container images to deploy the cluster-api-operator, cluster-api and cluster-api-aws-providers. 
+
+##### Note:
+
+A constrain for the OpenShift Cluster API Operator helm chart devPreview release; It is not supported to use the MCE (HyperShift) operator to provision a host control plane cluster while using the OpenShift cluster API operator helm chart.
+
+### Installation
+[Cert-Manager](https://docs.openshift.com/container-platform/4.17/security/cert_manager_operator/index.html) operator is a pre-request to install the OpenShift cluster api operator. To install the Cert-Manager opertator follow the the RedHat documentation instructions [here](https://docs.openshift.com/container-platform/4.17/security/cert_manager_operator/cert-manager-operator-install.html) OR apply the below Subscription, Namespace and OperatorGroup CRs (custom resource).
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager-operator
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-cert-manager-operator
+  namespace: cert-manager-operator
+spec:
+  targetNamespaces:
+  - "cert-manager-operator"
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-cert-manager-operator
+  namespace: cert-manager-operator
+spec:
+  channel: stable-v1
+  name: openshift-cert-manager-operator
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Automatic
+  startingCSV: cert-manager-operator.v1.14.0
+```
+
+##### Note:
+Using the Cert-Manager helm chart instead of the RedHat Cert-Manager operator for non OpenShift clusters. Follow the instruction [here](https://cert-manager.io/v1.6-docs/installation/helm/) to use the Cert-Manager helm chart.
+
+Add CAPI Operator helm repository:
+```
+$ helm repo add capi-operator https://raw.githubusercontent.com/openshift/cluster-api-operator/refs/heads/main/openshift
+$ helm repo update
+```
+
+Follow the instructions below to create the AWS credentials environment variable:
+```
+$ export AWS_REGION=us-east-1 
+$ export AWS_ACCESS_KEY_ID=<your-access-key>
+$ export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
+$ export AWS_SESSION_TOKEN=<session-token> # If you are using Multi-Factor Auth.
+$ export AWS_B64ENCODED_CREDENTIALS=$(clusterawsadm bootstrap credentials encode-as-profile|base64 -w0)
+$ echo $AWS_B64ENCODED_CREDENTIALS
+```
+Install the OpenShift Cluster-api-operator
+```
+$ helm upgrade --install capi-operator capi-operator/cluster-api-operator --create-namespace -n capi-operator-system --set awsEncodedCredentials=$AWS_B64ENCODED_CREDENTIALS
+```
+##### Note:
+To set the RedHat OpenShift credentials at the cluster-api-aws-provider visit https://console.redhat.com/openshift/token to retrieve your API authentication token. Then run the helm install command with the redhat credentials token defined as below.
+```
+$ helm upgrade --install capi-operator capi-operator/cluster-api-operator --create-namespace -n capi-operator-system --set awsEncodedCredentials=$AWS_B64ENCODED_CREDENTIALS --set ocmToken=<set-redhat-api-credentials-token>
+```
+### Usage
+The OpenShift Cluster API Operator deploys the main components (CAPI & CAPA deployments) that allows provisioning ROSA HCP clusters. Follow the [ROSA documentation](https://cluster-api-aws.sigs.k8s.io/topics/rosa/creating-a-cluster) to provision a ROSA-HCP cluster. For troubleshooting the OpenShift Cluster API Operator follow the docunmentation [here](https://github.com/openshift/cluster-api-operator/blob/main/openshift/README.md)
+
+
 # Graduated features
 
 ### Hosted Control Planes with MCE (MCE 2.5)
