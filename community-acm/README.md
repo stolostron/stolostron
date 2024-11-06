@@ -56,7 +56,7 @@ DONE!
 
 ## Uninstall
 ### Console
-1. Navigate to `Operators` > `Installed Operator` and select the `stolostrong` project
+1. Navigate to `Operators` > `Installed Operator` and select the `stolostron` project
 2. Select the three virtical action dots for the `Stolostron` operator and choose `Uninstall Operator`
 3. Select `Delete all operand instances for this operator` and press `Uninstall`
 4. Delete takes about 10 minutes
