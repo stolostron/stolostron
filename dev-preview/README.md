@@ -22,6 +22,7 @@ Features on Development Preview
   - [Installation](#installation-3)
   - [Usage](#usage-3)
 - [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
+- [Global Hub Integration with Management Fabric](#global-hub-integration-with-management-fabric)
 
 ## Ansible Collection & Inventory Plugin
 
@@ -199,3 +200,172 @@ The OpenShift Cluster API Operator deploys the main components (CAPI & CAPA depl
 ### Search-v2 - Odyssey
 
   * Search-v2 brings a re-architected backbone facilitating greater scale and resiliance within the service.
+
+## Global Hub Integration with Management Fabric
+
+Management fabric is designed to establish a common hosted integration fabric and control plane which can be plugged into each Red Hat management product or service, as well as consumed by our ISV partners.
+
+### Bring Management Fabric via the global hub operator
+
+The multicluster global hub can be able to install Management fabric in the on-premise environment.
+
+#### Install the global hub operator
+
+Refer to [here](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html/multicluster_global_hub/multicluster-global-hub#global-hub-install-connected) to install the multicluster global hub in your environment.
+
+#### Create the global hub instance
+
+You need to add a new annotation `global-hub.open-cluster-management.io/with-inventory: ""` in the global hub instance to enable the inventory-api deployment in the global hub namespace.
+You should be able to see the inventory-api deployment in the global hub namespace. The result likes:
+```
+inventory-api-6c7567fcfb-n5qv9                  	                       1/1 	Running   0         	11h
+inventory-api-f33567fcfb-p9zj5                  	                       1/1 	Running   0           11h
+```
+If you install the multicluster global hub with customized postgresql, you need to manually create `inventory` database.
+
+#### Verify the cluster information in Kafka topic
+
+You can use the curl command to talk with the inventory api which is exposed via OpenShift Route.
+```
+export inventory_api_route=$(oc -n multicluster-global-hub get route inventory-api -o jsonpath={.spec.host})
+oc -n multicluster-global-hub get secret inventory-api-guest-certs -ojsonpath='{.data.tls\.key}' | base64 -d > /tmp/client.key
+oc -n multicluster-global-hub get secret inventory-api-guest-certs -ojsonpath='{.data.tls\.crt}' | base64 -d > /tmp/client.crt
+oc -n multicluster-global-hub get secret inventory-api-server-ca-certs -ojsonpath='{.data.ca\.crt}' | base64 -d > /tmp/ca.crt
+
+curl --key /tmp/client.key --cert /tmp/client.crt  -H "Content-Type: application/json" --data "@data/k8s-cluster.json" --cacert /tmp/ca.crt https://$inventory_api_route:443/api/inventory/v1beta1/resources/k8s-clusters
+
+cat data/k8s-cluster.json
+
+{
+ "k8s_cluster": {
+   "metadata": {
+     "resource_type": "k8s-cluster",
+     "workspace": ""
+   },
+   "reporter_data": {
+     "reporter_type": "ACM",
+     "reporter_instance_id": "guest",
+     "reporter_version": "0.1",
+     "local_resource_id": "1",
+     "api_href": "www.example.com",
+     "console_href": "www.example.com"
+   },
+   "resource_data": {
+     "external_cluster_id": "1234",
+     "cluster_status": "READY",
+     "kube_version": "1.31",
+     "kube_vendor": "OPENSHIFT",
+     "vendor_version": "4.16",
+     "cloud_platform": "AWS_UPI",
+     "nodes": [
+       {
+         "name": "www.example.com",
+         "cpu": "7500m",
+         "memory": "30973224Ki",
+         "labels": [
+           {
+             "key": "has_monster_gpu",
+             "value": "yes"
+           }
+         ]
+       }
+     ]
+   }
+ }
+}
+```
+The cluster information should be sent to Kafka topic. We can use `kafka-console-consumer.sh` to check the results.
+```
+caPassword=`kubectl get secret kafka-cluster-ca-cert -o jsonpath='{.data.ca\.password}' | base64 -d`
+kubectl get secret kafka-cluster-ca-cert -o jsonpath='{.data.ca\.p12}' | base64 -d > /tmp/ca.p12
+kubectl get secret global-hub-kafka-user -o jsonpath='{.data.user\.p12}' | base64 -d > /tmp/user.p12
+userPassword=`kubectl get secret  global-hub-kafka-user -o jsonpath='{.data.user\.password}' | base64 -d`
+kubectl cp /tmp/user.p12 kafka-kafka-0:/tmp
+kubectl cp /tmp/ca.p12 kafka-kafka-0:/tmp
+
+cat << EOF > /tmp/client.properties
+security.protocol=SSL
+ssl.truststore.location=/tmp/ca.p12
+ssl.truststore.password=${caPassword}
+ssl.keystore.location=/tmp/user.p12
+ssl.keystore.password=${userPassword}
+EOF
+kubectl cp /tmp/client.properties kafka-kafka-0:/tmp
+
+# access pod to check topics
+oc exec -it kafka-kafka-0 sh
+bin/kafka-console-consumer.sh --bootstrap-server $kafka_bootstrap_server:443 --consumer.config=/tmp/client.properties --topic kessel-inventory --from-beginning
+```
+The result looks like this:
+```
+{"metadata":{"id":0,"last_reported":"2024-09-11T15:45:08.941075631Z","resource_type":"k8s-cluster","workspace":"","labels":null},"reporter_data":{"reporter_instance_id":"guest","reporter_type":"ACM","last_reported":"2024-09-11T15:45:08.941075631Z","local_resource_id":"1","reporter_version":"0.1","console_href":"www.example.com","api_href":"www.example.com"},"resource_data":{"external_cluster_id":"1234","cluster_status":"READY","kube_version":"1.31","kube_vendor":"OPENSHIFT","vendor_version":"4.16","cloud_platform":"AWS_UPI","nodes":[{"name":"www.example.com","cpu":"7500m","memory":"30973224Ki","labels":[{"key":"has_monster_gpu","value":"yes"}]}]}}
+```
+Congratulations! You have set up the environment correctly.
+
+### Integrate Management Fabric
+
+When you follow the [document](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html/multicluster_global_hub/multicluster-global-hub#global-hub-importing-managed-hub-in-default-mode) to import a managed hub cluster into the global hub, you should be able to see the cluster cloudevents in Kafka `kessel-inventory` topic.
+When you create a policy in the managed hub cluster, you can see the events including policy and relationships. The results look like this:
+```
+{
+    "specversion": "1.0",
+    "id": "e79857fa-8d00-11ef-ab88-0a580a8002c8",
+    "source": "http://localhost:8081",
+    "type": "redhat.inventory.resources.k8s-policy.created",
+    "subject": "/resources/k8s-policy/open-cluster-management-global-set/test-local",
+    "datacontenttype": "application/json",
+    "time": "2024-10-18T03:27:29.676142591Z",
+    "data": {
+        "metadata": {
+            "id": 1,
+            "last_reported": "2024-10-18T03:27:29.676142591Z",
+            "resource_type": "k8s-policy",
+            "workspace": "",
+            "labels": null
+        },
+        "reporter_data": {
+            "reporter_instance_id": "mgdhub-1-client",
+            "reporter_type": "ACM",
+            "last_reported": "2024-10-18T03:27:29.677911526Z",
+            "local_resource_id": "open-cluster-management-global-set/test-local",
+            "reporter_version": "2.11.3",
+            "console_href": "",
+            "api_href": ""
+        },
+        "resource_data": {
+            "disabled": false,
+            "severity": "MEDIUM"
+        }
+    }
+}
+
+{
+    "specversion": "1.0",
+    "id": "ea695dc3-8d00-11ef-ab88-0a580a8002c8",
+    "source": "http://localhost:8081",
+    "type": "redhat.inventory.resources_relationship.k8s-policy_ispropagatedto_k8s-cluster.updated",
+    "subject": "/resources_relationship/k8s-policy_ispropagatedto_k8s-cluster/open-cluster-management-global-set/test-local",
+    "datacontenttype": "application/json",
+    "time": "2024-10-18T03:27:34.406482298Z",
+    "data": {
+        "metadata": {
+            "id": 0,
+            "last_reported": "2024-10-18T03:27:34.406482298Z",
+            "relationship_type": "k8s-policy_ispropagatedto_k8s-cluster"
+        },
+        "reporter_data": {
+            "reporter_instance_id": "mgdhub-1-client",
+            "reporter_type": "ACM",
+            "last_reported": "2024-10-18T03:27:34.406482298Z",
+            "subject_local_resource_id": "open-cluster-management-global-set/test-local",
+            "object_local_resource_id": "managedcluster-1",
+            "reporter_version": "2.11.3"
+        },
+        "relationship_data": {
+            "status": "VIOLATIONS",
+            "k8s_policy_id": 0,
+            "k8s_cluster_id": 0
+        }
+    }
+}
+```
