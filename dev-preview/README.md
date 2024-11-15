@@ -203,27 +203,30 @@ The OpenShift Cluster API Operator deploys the main components (CAPI & CAPA depl
 
 ## Global Hub Integration with Management Fabric
 
-Management fabric is designed to establish a common hosted integration fabric and control plane which can be plugged into each Red Hat management product or service, as well as consumed by our ISV partners.
+To aid the integration of the Red Hat Hybrid Cloud Management solutions, Management Fabric was created. A management solution like ACM creates, modifies or deletes a managed resource in its local inventory. Also, all these operations will be reported to the management fabric via the Asset Inventory APIs. Other Red Hat Hybrid Cloud Management solutions will follow. Customers and ISV partners will be able to plug into Management Fabric to subscribe to these change events.
 
-### Bring Management Fabric via the global hub operator
+### Bring Management Fabric via the Global Hub Operator
 
 The multicluster global hub can be able to install Management fabric in the on-premise environment.
 
-#### Install the global hub operator
+#### Install the Global Hub Operator
 
 Refer to [here](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html/multicluster_global_hub/multicluster-global-hub#global-hub-install-connected) to install the multicluster global hub in your environment.
 
-#### Create the global hub instance
+Though the document says that ACM hub is a pre-requisite for installing Global Hub, for the purposes of this dev preview, you can install it without creating an ACM hub.
+
+#### Create the Global Hub Instance
 
 You need to add a new annotation `global-hub.open-cluster-management.io/with-inventory: ""` in the global hub instance to enable the inventory-api deployment in the global hub namespace.
-You should be able to see the inventory-api deployment in the global hub namespace. The result likes:
+You should be able to see the inventory-api deployment in the global hub namespace. The result looks like:
 ```
 inventory-api-6c7567fcfb-n5qv9                  	                       1/1 	Running   0         	11h
 inventory-api-f33567fcfb-p9zj5                  	                       1/1 	Running   0           11h
 ```
-If you install the multicluster global hub with customized postgresql, you need to manually create `inventory` database.
 
-#### Verify the cluster information in Kafka topic
+If you have installed the Global Hub Operator without installing the ACM hub on the Global Hub cluster, use [Verify the cluster information in Kafka topic](#verify-the-cluster-information-in-kafka-topic). However if you have installed ACM hub, you can skip to [Integrate Management Fabric](#integrate-management-fabric).
+
+#### Verify the Cluster Information in Kafka Topic
 
 You can use the curl command to talk with the inventory api which is exposed via OpenShift Route.
 ```
@@ -302,7 +305,9 @@ The result looks like this:
 ```
 Congratulations! You have set up the environment correctly.
 
-### Integrate Management Fabric
+A Red Hat management tool like ACM would have automatically registered its cluster and policies etc using this API. In that case, you would directly see the events without having to make the API POST call.
+
+#### Integrate Management Fabric
 
 When you follow the [document](https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.12/html/multicluster_global_hub/multicluster-global-hub#global-hub-importing-managed-hub-in-default-mode) to import a managed hub cluster into the global hub, you should be able to see the cluster cloudevents in Kafka `kessel-inventory` topic.
 When you create a policy in the managed hub cluster, you can see the events including policy and relationships. The results look like this:
@@ -369,3 +374,4 @@ When you create a policy in the managed hub cluster, you can see the events incl
     }
 }
 ```
+Congratulations! You have set up the environment correctly.
