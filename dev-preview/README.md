@@ -203,7 +203,7 @@ The OpenShift Cluster API Operator deploys the main components (CAPI & CAPA depl
 
 ## Global Hub Integration with Management Fabric
 
-To aid the integration of the Red Hat Hybrid Cloud Management solutions, Management Fabric was created. A management solution like ACM creates, modifies or deletes a managed resource in its local inventory. Also, all these operations will be reported to the management fabric via the Asset Inventory APIs. Other Red Hat Hybrid Cloud Management solutions will follow. Customers and ISV partners will be able to plug into Management Fabric to subscribe to these change events.
+To aid the integration of the Red Hat Hybrid Cloud Management solutions, Management Fabric was created. A management solution like ACM creates, modifies or deletes a managed resource in its local inventory. Also, all these operations will be reported to the management fabric via the Asset Inventory APIs. Other Red Hat Hybrid Cloud Management solutions will follow the same path. Customers and ISV partners will be able to plug into Management Fabric to subscribe to these change events.
 
 ### Bring Management Fabric via the Global Hub Operator
 
@@ -217,7 +217,7 @@ Though the document says that ACM hub is a pre-requisite for installing Global H
 
 #### Create the Global Hub Instance
 
-You need to add a new annotation `global-hub.open-cluster-management.io/with-inventory: ""` in the global hub instance to enable the inventory-api deployment in the global hub namespace.
+Once the global hub operator is installed (with or without ACM hub), you need to add a new annotation `global-hub.open-cluster-management.io/with-inventory: ""` in the global hub instance to enable the inventory-api deployment in the global hub namespace.
 You should be able to see the inventory-api deployment in the global hub namespace. The result looks like:
 ```
 inventory-api-6c7567fcfb-n5qv9                  	                       1/1 	Running   0         	11h
