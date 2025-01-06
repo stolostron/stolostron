@@ -1,6 +1,6 @@
 ## Getting Started with Development Preview Content
 <!-- This URL uses a tag so we can predict the value -->
-Links: [Release-ACM-2.11/MCE-2.6](https://github.com/stolostron/stolostron/tree/2.11/dev-preview)
+Links: [Release-ACM-2.12/MCE-2.7](https://github.com/stolostron/stolostron/tree/2.12/dev-preview)
 
 Welcome to the hub for Red Hat Advanced Cluster Management Development preview content!  Many of our unique and upcoming features start as Development Preview content, available through the stolostron community for feedback and tight iteration as we discover and adapt to new use cases and usage patterns.
 
