@@ -23,6 +23,7 @@ Features on Development Preview
   - [Usage](#usage-3)
 - [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
 - [Global Hub Integration with Management Fabric](#global-hub-integration-with-management-fabric)
+- [Improving Cluster Efficiency with Right Sizing](#improving-cluster-efficiency-with-right-sizing)
 
 ## Ansible Collection & Inventory Plugin
 
@@ -375,3 +376,14 @@ When you create a policy in the managed hub cluster, you can see the events incl
 }
 ```
 Congratulations! You have set up the environment correctly.
+
+## Improving Cluster Efficiency with Right Sizing 
+
+In the cloud-native world, efficiently managing resources is essential to optimize performance, control costs, and ensure operational efficiency. The **Right Sizing** feature in **ACM** has been enhanced to provide cluster administrators with valuable insights into resource usage and optimization.
+
+Currently, there are two variants of Right Sizing available in dev-preview:
+
+- **Namespace Level**: Focuses on resource insights at the namespace and cluster level.
+- **Virtualization/VM Level**: Focuses on resource insights at the VM level.
+
+To understand how this can help you optimize resources across multiple clusters, as well as learn about installation steps, detailed usage, and how to start using the feature, you can refer to the full documentation [here](https://github.com/stolostron/right-sizing/blob/main/README.md).
