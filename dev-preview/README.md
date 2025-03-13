@@ -24,6 +24,7 @@ Features on Development Preview
 - [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
 - [Global Hub Integration with Management Fabric](#global-hub-integration-with-management-fabric)
 - [Improving Cluster Efficiency with Right Sizing](#improving-cluster-efficiency-with-right-sizing)
+- [Incident Detection](#incident-detection)
 
 ## Ansible Collection & Inventory Plugin
 
@@ -387,3 +388,35 @@ Currently, there are two variants of Right Sizing available in dev-preview:
 - **Virtualization/VM Level**: Focuses on resource insights at the VM level.
 
 To understand how this can help you optimize resources across multiple clusters, as well as learn about installation steps, detailed usage, and how to start using the feature, you can refer to the full documentation [here](https://github.com/stolostron/right-sizing/blob/main/README.md).
+
+## Incident detection
+
+Dealing with the amount of active alerts in a cluster can be challenging. Incident detection groups alerts that occur around the same time into incidents, helping you to focus on identifying the root cause of alert spikes rather than managing numerous individual alerts. The timeline of incidents is available in the OCP webconsole ("Observe" -> "Incidents") of the spoke clusters. 
+
+The multicluster incident UI is a Grafana dashboard that provides a fleet-level table overview.
+
+The feature can be enabled in the `capabilities` field in the `MultiClusterObservability` custom resource (in the Hub cluster) like follows:
+
+```yaml
+kind: MultiClusterObservability
+metadata:
+  name: observability
+spec:
+  capabilities:
+    platform:
+      analytics:
+        incidentDetection:
+          enabled: true
+  observabilityAddonSpec: {}
+  storageConfig:
+  . . .
+```
+
+Optionally you can patch the custom resource with the following command:
+
+```bash
+oc patch multiclusterobservabilities.observability.open-cluster-management.io observability --type=merge -p '{"spec":{"capabilities":{"platform":{"analytics":{"incidentDetection":{"enabled":true}}}}}}'
+```
+
+This triggers the deployment of the "mutlicluster-observability-addon" which is responsible for installing the required resources
+on the spoke clusters. 
