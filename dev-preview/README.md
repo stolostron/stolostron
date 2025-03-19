@@ -24,6 +24,7 @@ Features on Development Preview
 - [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
 - [Global Hub Integration with Management Fabric](#global-hub-integration-with-management-fabric)
 - [Improving Cluster Efficiency with Right Sizing](#improving-cluster-efficiency-with-right-sizing)
+- [Image-Based Break/Fix (IBBF) for SNO Hardware Replacement](#image-based-breakfix-ibbf-for-sno-hardware-replacement)
 
 ## Ansible Collection & Inventory Plugin
 
@@ -387,3 +388,13 @@ Currently, there are two variants of Right Sizing available in dev-preview:
 - **Virtualization/VM Level**: Focuses on resource insights at the VM level.
 
 To understand how this can help you optimize resources across multiple clusters, as well as learn about installation steps, detailed usage, and how to start using the feature, you can refer to the full documentation [here](https://github.com/stolostron/right-sizing/blob/main/README.md).
+
+## Image-Based Break/Fix (IBBF) for SNO Hardware Replacement
+
+The Image-Based Break/Fix (IBBF) feature streamlines Single Node OpenShift (SNO) hardware replacement, minimizing downtime while preserving the cluster’s original identity. It ensures that critical details, including cluster identifiers, cryptographic keys (such as kubeconfig), and authentication credentials, are retained. This allows the replacement node to seamlessly assume the identity of the failed hardware.
+
+Designed for like-for-like hardware replacements and IBI-installed SNOs, IBBF introduces a GitOps-compatible, declarative API, enabling users to initiate hardware replacement with a single Git commit. Powered by the SiteConfig Operator and IBI Operator, this functionality allows clusters to be redeployed using the existing ClusterInstance CR. The SiteConfig Operator provides a flexible reinstallation service that integrates seamlessly with template-driven provisioning. Additionally, it includes a backup and restore mechanism for Secrets and ConfigMaps, ensuring the cluster retains its identity.
+
+With IBBF, OpenShift users gain a resilient, automated, and GitOps-native solution for rapidly restoring SNO clusters after hardware failures.
+
+Additionally, the SiteConfig Operator extends its reinstallation service to clusters provisioned via the Assisted Installer. However, unlike IBBF, where the cluster identity is preserved, Assisted Installer-based reinstallations generate a new cluster identity during the process.
