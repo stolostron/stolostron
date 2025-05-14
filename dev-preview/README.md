@@ -391,11 +391,15 @@ To understand how this can help you optimize resources across multiple clusters,
 
 ## Incident detection
 
-Dealing with the amount of active alerts in a cluster can be challenging. Incident detection groups alerts that occur around the same time into incidents, helping you to focus on identifying the root cause of alert spikes rather than managing numerous individual alerts. The timeline of incidents is available in the OCP webconsole ("Observe" -> "Incidents") of the spoke clusters. 
+Clusters can generate significant volumes of monitoring data, making it hard for you to distinguish critical signals from noise. 
+Single incidents can trigger a cascade of alerts, and this results in extended time to detect and resolve issues.
+
+The incident detection feature groups related alerts into incidents, to help you identify the root causes of alert bursts, instead of being overwhelmed by individual alerts.
+These incidents are then visualized in the OCP webconsole ("Observe" -> "Incidents") of the spoke clusters. 
 
 The multicluster incident UI is a Grafana dashboard that provides a fleet-level table overview.
 
-The feature can be enabled in the `capabilities` field in the `MultiClusterObservability` custom resource (in the Hub cluster) like follows:
+The feature can be enabled in the `capabilities` field with the `MultiClusterObservability` custom resource (in the Hub cluster) like follows:
 
 ```yaml
 kind: MultiClusterObservability
