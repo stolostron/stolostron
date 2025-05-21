@@ -399,7 +399,18 @@ These incidents are then visualized in the OCP webconsole ("Observe" -> "Inciden
 
 The multicluster incident UI is a Grafana dashboard that provides a fleet-level table overview.
 
-The feature can be enabled in the `capabilities` field with the `MultiClusterObservability` custom resource (in the Hub cluster) like follows:
+**The observability addon currently depends on various 'CustomResourceDefinitions', which may not be available in the Hub cluster. This could prevent the installation of this feature**. You need to clone the repository at https://github.com/stolostron/multicluster-observability-addon.
+
+```bash
+git clone git@github.com:stolostron/multicluster-observability-addon.git
+```
+Then, when logged in to the Hub cluster, call the following command to install the CRDs:
+
+```bash
+make install-crds
+```
+
+The feature can be then enabled in the `capabilities` field with the `MultiClusterObservability` custom resource (in the Hub cluster) like follows:
 
 ```yaml
 kind: MultiClusterObservability
@@ -424,3 +435,4 @@ oc patch multiclusterobservabilities.observability.open-cluster-management.io ob
 
 This triggers the deployment of the "mutlicluster-observability-addon" which is responsible for installing the required resources
 on the spoke clusters. 
+
