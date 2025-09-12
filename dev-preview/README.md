@@ -1,3 +1,5 @@
+# Development Preview Content 
+
 ## Getting Started with Development Preview Content
 <!-- This URL uses a tag so we can predict the value -->
 Links: [Release-ACM-2.12/MCE-2.7](https://github.com/stolostron/stolostron/tree/2.12/dev-preview)
@@ -8,23 +10,44 @@ Below, you'll find a list of current dev-preview content complete with installat
 
 Features on Development Preview
 
-- [Getting Started with Development Preview Content](#getting-started-with-development-preview-content)
-- [Ansible Collection \& Inventory Plugin](#ansible-collection--inventory-plugin)
-  - [Installation](#installation)
-  - [Usage](#usage)
-- [Dynamic Metric Collection (Custom Metrics Collection)](#dynamic-metric-collection-custom-metrics-collection)
-  - [Installation](#installation-1)
-  - [Usage](#usage-1)
-- [Observability Instance Sizes](#observability-instance-sizes)
-  - [Installation](#installation-2)
-  - [Usage](#usage-2)
-- [Edge Management](#edge-management)
-  - [Installation](#installation-3)
-  - [Usage](#usage-3)
-- [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
-- [Global Hub Integration with Management Fabric](#global-hub-integration-with-management-fabric)
-- [Improving Cluster Efficiency with Right Sizing](#improving-cluster-efficiency-with-right-sizing)
-- [Incident Detection](#incident-detection)
+- [Development Preview Content](#development-preview-content)
+  - [Getting Started with Development Preview Content](#getting-started-with-development-preview-content)
+  - [Ansible Collection \& Inventory Plugin](#ansible-collection--inventory-plugin)
+    - [Installation](#installation)
+    - [Usage](#usage)
+  - [Dynamic Metric Collection (Custom Metrics Collection) ](#dynamic-metric-collection-custom-metrics-collection-)
+    - [Installation](#installation-1)
+    - [Usage](#usage-1)
+  - [Observability Instance Sizes](#observability-instance-sizes)
+    - [Installation](#installation-2)
+    - [Usage](#usage-2)
+  - [Edge Management](#edge-management)
+    - [Installation](#installation-3)
+    - [Usage](#usage-3)
+  - [Global Hub Integration with Red Hat Advanced Cluster Security](#global-hub-integration-with-red-hat-advanced-cluster-security)
+  - [OpenShift Cluster API Operator](#openshift-cluster-api-operator)
+        - [Note:](#note)
+    - [Installation](#installation-4)
+        - [Note:](#note-1)
+        - [Note:](#note-2)
+    - [Usage](#usage-4)
+- [Graduated features](#graduated-features)
+    - [Hosted Control Planes with MCE (MCE 2.5)](#hosted-control-planes-with-mce-mce-25)
+    - [Multicluster Global Hub (ACM 2.9)](#multicluster-global-hub-acm-29)
+    - [Finer-Grained Access Control to Observability Metrics (ACM 2.11)](#finer-grained-access-control-to-observability-metrics-acm-211)
+    - [Configurable Collection in Search (ACM 2.7)](#configurable-collection-in-search-acm-27)
+    - [Search-v2 - Odyssey](#search-v2---odyssey)
+  - [Global Hub Integration with Management Fabric](#global-hub-integration-with-management-fabric)
+    - [Bring Management Fabric via the Global Hub Operator](#bring-management-fabric-via-the-global-hub-operator)
+      - [Install the Global Hub Operator](#install-the-global-hub-operator)
+      - [Create the Global Hub Instance](#create-the-global-hub-instance)
+      - [Verify the Cluster Information in Kafka Topic](#verify-the-cluster-information-in-kafka-topic)
+      - [Integrate Management Fabric](#integrate-management-fabric)
+  - [Improving Cluster Efficiency with Right Sizing](#improving-cluster-efficiency-with-right-sizing)
+  - [Incident detection](#incident-detection)
+  - [Insights Proxy ACM Addon](#insights-proxy-acm-addon)
+    - [Installation](#installation-5)
+    - [Usage](#usage-5)
 
 ## Ansible Collection & Inventory Plugin
 
@@ -436,3 +459,30 @@ oc patch multiclusterobservabilities.observability.open-cluster-management.io ob
 This triggers the deployment of the "mutlicluster-observability-addon" which is responsible for installing the required resources
 on the spoke clusters. 
 
+## Insights Proxy ACM Addon
+
+The Insights Proxy ACM Addon enables disconnected clusters to send telemetry data to Red Hat Insights through a proxy service. This is particularly useful for air-gapped or disconnected environments where clusters cannot directly communicate with Red Hat's telemetry services.
+
+```mermaid
+flowchart LR
+    subgraph Managed Cluster
+    IO[Insights Operator]
+    end
+    subgraph Hub Cluster
+    IP[Insights Proxy]
+    end
+    IO --> IP
+    IP --> CRC[console.redhat.com]
+```
+
+**Repository**: [RedHatInsights/insights-proxy-addon](https://github.com/RedHatInsights/insights-proxy-addon)
+
+### Installation
+
+Follow the installation instructions in the above to install the addon.
+
+### Usage
+
+The managed clusters must have the label `should-use-insights-proxy` set to `true`. They also need to be enabled for Insights and the `insights-operator` pod must be running in the `openshift-insights` namespace. In the instructions above there is a command to enable it otherwise.
+
+Once the addon is installed, an ACM Policy ensures the `insights-operator` on the managed clustersis configured to use the Insights Proxy URL that is deployed on the hub cluster.
