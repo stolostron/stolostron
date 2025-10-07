@@ -31,6 +31,7 @@ Features on Development Preview
         - [Note:](#note-1)
         - [Note:](#note-2)
     - [Usage](#usage-4)
+  - [Cardinality Dashboards](#cardinality-dashboards-acm-215)
 - [Graduated features](#graduated-features)
     - [Hosted Control Planes with MCE (MCE 2.5)](#hosted-control-planes-with-mce-mce-25)
     - [Multicluster Global Hub (ACM 2.9)](#multicluster-global-hub-acm-29)
@@ -203,6 +204,74 @@ $ helm upgrade --install capi-operator capi-operator/cluster-api-operator --crea
 ### Usage
 The OpenShift Cluster API Operator deploys the main components (CAPI & CAPA deployments) that allows provisioning ROSA HCP clusters. Follow the [ROSA documentation](https://cluster-api-aws.sigs.k8s.io/topics/rosa/creating-a-cluster) to provision a ROSA-HCP cluster. For troubleshooting the OpenShift Cluster API Operator follow the docunmentation [here](https://github.com/openshift/cluster-api-operator/blob/main/openshift/README.md)
 
+## Cardinality Dashboards (ACM 2.15)
+
+This section explains the purpose and usage of the `generate-cardinality-sharded-rules.sh` script, which is a prerequisite for populating the data in the Cardinality Monitoring dashboards. The script is located in the [multicluster-observability-operator](https://github.com/stolostron/multicluster-observability-operator/tree/main/tools) repository.
+
+### The High Cost of Cardinality Evaluation
+
+Calculating metric cardinality (the number of unique time series) is one of the most resource-intensive queries you can run in a Prometheus or Thanos environment. When you run ad-hoc queries or load a dashboard with range queries that need to `count({__name__=~".+"})` across dozens or hundreds of managed clusters, it must load a massive amount of index data into memory, causing high resource usage spikes on the central monitoring components.
+
+### Recording Rules with Long Intervals
+
+To reduce the cost of calculating the cardinality on demand, we pre-calculate the required cardinality data using **Prometheus recording rules**. A recording rule runs a query at a regular interval and saves its result as a new, much lighter metric.
+
+* **Long Interval (30m):** We set the evaluation interval to 30 minutes, computing the cardinality only twice per hour to significantly reduce resource consumption. Since cardinality is a trend, a 30-minute resolution is sufficient for analysis, and the accompanying Grafana dashboards are configured to correctly handle this long interval.  
+* **Efficient Metrics:** The rules produce simple, low-cardinality metrics (e.g., `cluster_name:cardinality`) as their output. Querying these pre-aggregated metrics is instantaneous and lightweight for the dashboards, as all the heavy computation has already been done.
+
+### Smoothing Spikes with Rule Sharding
+
+While recording rules solve the on-demand query problem, they remain computationally heavy. By default, the rule `count by (cluster, namespace) ({__name__=~".+"})` would still try to calculate cardinality for **all clusters at the same time** once every 30 minutes. This would cause a huge, periodic spike in CPU and memory usage on the Thanos Ruler, potentially destabilizing the system.
+
+To smooth the load over time, the `generate-cardinality-sharded-rules.sh` script splits the single, resource-intensive recording rule into multiple smaller expressions, each addressing a distinct set of clusters. These sharded expressions are placed within the same rule group and are evaluated sequentially by the Thanos Ruler. This sequential evaluation effectively smooths the resource consumption, preventing dangerous spikes while ensuring all resulting metrics share the same evaluation timestamp.
+
+The script uses the clusterID label as sharding key, which is a UUID (e.g., a1b2c3d4-...). The random distribution of hexadecimal characters (0-9, a-f) in a UUID ensures the clusters are evenly distributed across shards.
+
+**Important Note for Non-OpenShift Clusters:** This sharding mechanism relies on the clusterID being a UUID, which is standard for OpenShift clusters. If you are monitoring other cluster types (e.g., EKS, AKS), the clusterID may be a non-random string like the cluster name. This can lead to skewed sharding (if many names start with the same characters) or cause clusters to be ignored entirely if their IDs contain characters outside the hexadecimal set (0-9, a-f). These cases must be handled manually by adjusting the sharding logic.
+
+### How to Use the Script
+
+The cardinality dashboards require a specific set of recording rules to be added to the `thanos-ruler-custom-rules` ConfigMap. This script generates a complete YAML file for that ConfigMap, containing all the necessary sharded rules, ready to be applied to your cluster.
+
+**Important:** If your `thanos-ruler-custom-rules` ConfigMap already contains existing rules, do not replace the entire file with the script's output. You should manually copy the groups section from the generated YAML and merge it into the `data.custom_rules.yaml` key of your existing ConfigMap.
+
+#### Step 1: Generate the Rules
+
+Run the script located in the [multicluster-observability-operator](https://github.com/stolostron/multicluster-observability-operator/tree/main/tools) repository from your terminal, optionally providing the number of shards to create (the default is **16**).
+
+```bash
+# Generate rules with the default 16 shards  
+./generate-cardinality-sharded-rules.sh > thanos-ruler-custom-rules.yaml
+
+# Generate rules with 64 shards for a larger environment  
+./generate-cardinality-sharded-rules.sh 64 > thanos-ruler-custom-rules.yaml
+```
+
+**Choosing the Number of Shards:** The number of shards must be a power of two (2, 4, 8, 16, 32, etc.). To optimally smooth the evaluation load, the ideal scenario is to have approximately one cluster per shard. Therefore, you should aim for a shard count that is the closest power of two to your total number of managed clusters. For example, if you have 50 clusters, a shard count of 32 or 64 would be an excellent choice. It is perfectly fine to have more shards than clusters, as expressions that match no clusters have virtually no computational cost.
+
+#### Step 2: Apply (Create or Update) the ConfigMap
+
+Use kubectl or oc to apply the generated file to your hub cluster. **Be cautious**, as this command will override the entire ConfigMap. If you have existing custom rules, ensure you have merged them into this file as described in the note above.
+
+```bash
+kubectl apply -f thanos-ruler-custom-rules.yaml
+```
+
+The Thanos Ruler will automatically detect the changes and load the new sharded rules. After the first 30-minute interval passes, your cardinality dashboards will start being populated with data.
+
+### Understanding the Generated Rules
+
+The script creates two main rule groups, each using a two-step aggregation process:
+
+1. **grafana-dashboard-cardinality-cluster Group:**  
+   * **Step 1 (Sharded):** Calculates cardinality per cluster and namespace (`cluster_namespace:cardinality`). This is the heavily sharded part.  
+   * **Step 2 (Final):** Uses the result of the first step to calculate the total cardinality per cluster (`cluster:cardinality`). This final aggregation is very lightweight.  
+2. **grafana-dashboard-cardinality-metric Group:**  
+   * **Step 1 (Sharded):** Calculates cardinality per cluster and metric name (`cluster_name:cardinality`).  
+   * **Step 2 (Final):** Uses the result of the first step to calculate the total cardinality per metric name across all clusters (`name:cardinality`).
+3. **grafana-dashboard-cardinality-global-rules Group:**
+   * **Purpose:** The metrics listed here are generated by global recording rules running on Thanos. They provide a platform-wide view by aggregating data from all managed clusters. As a result, they do not contain any cluster-specific labels and cannot be visualized in the drill-down dashboards.
+   * **Logic & Output:** The rule identifies these metrics by selecting all time series that have an empty `clusterID` label (`clusterID=""`) and produces the metric `name:no_cluster:cardinality`, which provides a count of series for each global metric name.
 
 # Graduated features
 
@@ -487,71 +556,3 @@ The managed clusters must have the label `should-use-insights-proxy` set to `tru
 
 Once the addon is installed, an ACM Policy ensures the `insights-operator` on the managed clustersis configured to use the Insights Proxy URL that is deployed on the hub cluster.
 
-## Cardinality Dashboards
-
-This section explains the purpose and usage of the `generate-cardinality-sharded-rules.sh` script, which is a prerequisite for populating the data in the Cardinality Monitoring dashboards. The script is located in the [multicluster-observability-operator](https://github.com/stolostron/multicluster-observability-operator/tree/main/tools) repository.
-
-### The High Cost of Cardinality Evaluation
-
-Calculating metric cardinality (the number of unique time series) is one of the most resource-intensive queries you can run in a Prometheus or Thanos environment. When you run ad-hoc queries or load a dashboard with range queries that need to `count({__name__=~".+"})` across dozens or hundreds of managed clusters, it must load a massive amount of index data into memory, causing high resource usage spikes on the central monitoring components.
-
-### Recording Rules with Long Intervals
-
-To reduce the cost of calculating the cardinality on demand, we pre-calculate the required cardinality data using **Prometheus recording rules**. A recording rule runs a query at a regular interval and saves its result as a new, much lighter metric.
-
-* **Long Interval (30m):** We set the evaluation interval to 30 minutes, computing the cardinality only twice per hour to significantly reduce resource consumption. Since cardinality is a trend, a 30-minute resolution is sufficient for analysis, and the accompanying Grafana dashboards are configured to correctly handle this long interval.  
-* **Efficient Metrics:** The rules produce simple, low-cardinality metrics (e.g., `cluster_name:cardinality`) as their output. Querying these pre-aggregated metrics is instantaneous and lightweight for the dashboards, as all the heavy computation has already been done.
-
-### Smoothing Spikes with Rule Sharding
-
-While recording rules solve the on-demand query problem, they remain computationally heavy. By default, the rule `count by (cluster, namespace) ({__name__=~".+"})` would still try to calculate cardinality for **all clusters at the same time** once every 30 minutes. This would cause a huge, periodic spike in CPU and memory usage on the Thanos Ruler, potentially destabilizing the system.
-
-To smooth the load over time, the `generate-cardinality-sharded-rules.sh` script splits the single, resource-intensive recording rule into multiple smaller expressions, each addressing a distinct set of clusters. These sharded expressions are placed within the same rule group and are evaluated sequentially by the Thanos Ruler. This sequential evaluation effectively smooths the resource consumption, preventing dangerous spikes while ensuring all resulting metrics share the same evaluation timestamp.
-
-The script uses the clusterID label as sharding key, which is a UUID (e.g., a1b2c3d4-...). The random distribution of hexadecimal characters (0-9, a-f) in a UUID ensures the clusters are evenly distributed across shards.
-
-**Important Note for Non-OpenShift Clusters:** This sharding mechanism relies on the clusterID being a UUID, which is standard for OpenShift clusters. If you are monitoring other cluster types (e.g., EKS, AKS), the clusterID may be a non-random string like the cluster name. This can lead to skewed sharding (if many names start with the same characters) or cause clusters to be ignored entirely if their IDs contain characters outside the hexadecimal set (0-9, a-f). These cases must be handled manually by adjusting the sharding logic.
-
-### How to Use the Script
-
-The cardinality dashboards require a specific set of recording rules to be added to the `thanos-ruler-custom-rules` ConfigMap. This script generates a complete YAML file for that ConfigMap, containing all the necessary sharded rules, ready to be applied to your cluster.
-
-**Important:** If your `thanos-ruler-custom-rules` ConfigMap already contains existing rules, do not replace the entire file with the script's output. You should manually copy the groups: section from the generated YAML and merge it into the `data.custom_rules.yaml` key of your existing ConfigMap.
-
-#### Step 1: Generate the Rules
-
-Run the script located in the [multicluster-observability-operator](https://github.com/stolostron/multicluster-observability-operator/tree/main/tools) repository from your terminal, optionally providing the number of shards to create (the default is **16**).
-
-```bash
-# Generate rules with the default 16 shards  
-./generate-cardinality-sharded-rules.sh > thanos-ruler-custom-rules.yaml
-
-# Generate rules with 64 shards for a larger environment  
-./generate-cardinality-sharded-rules.sh 64 > thanos-ruler-custom-rules.yaml
-```
-
-**Choosing the Number of Shards:** The number of shards must be a power of two (2, 4, 8, 16, 32, etc.). To optimally smooth the evaluation load, the ideal scenario is to have approximately one cluster per shard. Therefore, you should aim for a shard count that is the closest power of two to your total number of managed clusters. For example, if you have 50 clusters, a shard count of 32 or 64 would be an excellent choice. It is perfectly fine to have more shards than clusters, as expressions that match no clusters have virtually no computational cost.
-
-#### Step 2: Apply (Create or Update) the ConfigMap
-
-Use kubectl or oc to apply the generated file to your hub cluster. **Be cautious**, as this command will override the entire ConfigMap. If you have existing custom rules, ensure you have merged them into this file as described in the note above.
-
-```bash
-kubectl apply -f thanos-ruler-custom-rules.yaml
-```
-
-The Thanos Ruler will automatically detect the changes and load the new sharded rules. After the first 30-minute interval passes, your cardinality dashboards will start being populated with data.
-
-### Understanding the Generated Rules
-
-The script creates two main rule groups, each using a two-step aggregation process:
-
-1. **grafana-dashboard-cardinality-cluster Group:**  
-   * **Step 1 (Sharded):** Calculates cardinality per cluster and namespace (`cluster_namespace:cardinality`). This is the heavily sharded part.  
-   * **Step 2 (Final):** Uses the result of the first step to calculate the total cardinality per cluster (`cluster:cardinality`). This final aggregation is very lightweight.  
-2. **grafana-dashboard-cardinality-metric Group:**  
-   * **Step 1 (Sharded):** Calculates cardinality per cluster and metric name (`cluster_name:cardinality`).  
-   * **Step 2 (Final):** Uses the result of the first step to calculate the total cardinality per metric name across all clusters (`name:cardinality`).
-3. **grafana-dashboard-cardinality-global-rules Group:**
-   * **Purpose:** The metrics listed here are generated by global recording rules running on Thanos. They provide a platform-wide view by aggregating data from all managed clusters. As a result, they do not contain any cluster-specific labels and cannot be visualized in the drill-down dashboards.
-   * **Logic & Output:** The rule identifies these metrics by selecting all time series that have an empty `clusterID` label (`clusterID=""`) and produces the metric `name:no_cluster:cardinality`, which provides a count of series for each global metric name.
