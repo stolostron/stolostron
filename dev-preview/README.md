@@ -35,6 +35,9 @@ Features on Development Preview
   - [Kueue Addon](#kueue-addon)
     - [Installation](#installation-5)
     - [Usage](#usage-5)
+  - [Krkn Operator ACM Integration](#krkn-operator-acm-integration)
+      - [Installation](#installation-7)
+      - [Usage](#usage-7)
 - [Graduated features](#graduated-features)
     - [Hosted Control Planes with MCE (MCE 2.5)](#hosted-control-planes-with-mce-mce-25)
     - [Multicluster Global Hub (ACM 2.9)](#multicluster-global-hub-acm-29)
@@ -585,4 +588,20 @@ Follow the installation instructions in the above to install the addon.
 The managed clusters must have the label `should-use-insights-proxy` set to `true`. They also need to be enabled for Insights and the `insights-operator` pod must be running in the `openshift-insights` namespace. In the instructions above there is a command to enable it otherwise.
 
 Once the addon is installed, an ACM Policy ensures the `insights-operator` on the managed clustersis configured to use the Insights Proxy URL that is deployed on the hub cluster.
+
+## Krkn Operator ACM Integration
+
+Krkn is a chaos engineering tool for Kubernetes that enables resilience testing through systematic fault injection. The Krkn Operator provides a Kubernetes-native deployment method, allowing users to run chaos scenarios as custom resources. 
+
+The **ACM integration** is the key feature of this development preview, enabling chaos testing across multiple managed clusters directly from the ACM hub. The operator automatically provides managed clusters as targets and seamlessly integrates with **MultiCluster scenarios and Workflows**. These workflows support both serial and parallel chaos scenario execution across your cluster fleet, managed through an intuitive UI provided by the operator, allowing simultaneous chaos testing across multiple clusters.
+
+**Repository**: [krkn-chaos/krkn](https://github.com/krkn-chaos/krkn)
+
+### Installation
+
+Installation instructions can be found in the [Krkn Operator Installation Guide](https://krkn-chaos.dev/docs/krkn-operator/installation/).
+
+### Usage
+
+Usage instructions and workflow examples can be found in the [Krkn Operator Usage Documentation](https://krkn-chaos.dev/docs/krkn-operator/installation/).
 
