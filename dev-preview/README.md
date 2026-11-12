@@ -309,6 +309,39 @@ For detailed usage scenarios and examples, see the [Kueue Addon Usage Scenarios]
 This feature exposes a Model Context Protocol (MCP) server that provides secure access to ACM (Advanced Cluster Management) Search API. It enables AI assistants and MCP clients to query and analyze Kubernetes resources across a fleet of managed clusters through a standardized interface. For quick set up, follow instructions 
 [here](https://github.com/stolostron/search-mcp-server/blob/main/README.md#quick-start). This can be also integrated with existing OpenShift Lightspeed installation in a ACM Hub cluster as explained [here](https://github.com/stolostron/search-mcp-server/blob/main/ols-integration.md).
 
+## Red Hat Lightspeed advisor self-managed
+
+Red Hat Lightspeed advisor self-managed provides Insights recommendations for environments that **cannot reach console.redhat.com**. It is deployed as an ACM addon on the hub cluster: instead of sending their diagnostic archives to Red Hat's hosted Insights service, the Insights Operator of every managed cluster uploads them to the hub, where they are processed into cluster recommendations and upgrade risk predictions that are displayed directly in the ACM console.
+
+```mermaid
+flowchart LR
+    subgraph Managed Clusters
+    IO[Insights Operator]
+    end
+    subgraph Hub Cluster
+    IOP[Red Hat Lightspeed advisor self-managed]
+    ACM[ACM Console]
+    end
+    IO --> IOP
+    ACM --> IOP
+```
+
+**Repository**: [RedHatInsights/lightspeed-advisor-on-premise-ocp](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp)
+
+### Installation
+
+Installation instructions, including the list of prerequisites and the steps to verify the deployment, can be found in the [repository](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#deployment-to-acm-cluster).
+
+### Usage
+
+Once the addon is installed, it redirects the Insights endpoints of the managed clusters and of the ACM and MCE consoles to the Red Hat Lightspeed advisor self-managed service running on the hub cluster. Useful guides from the repository README:
+
+- [Viewing results in the ACM console](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#viewing-results-in-the-acm-console)
+- [Verifying the ACM console consumes data from advisor self-managed](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#verifying-the-acm-console-consumes-insights-on-prem)
+- [On-demand data gathering](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#on-demand-data-gathering)
+- [Triggering sample results](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#triggering-sample-results)
+- [Architecture](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#architecture)
+
 # Graduated features
 
 ### Hosted Control Planes with MCE (MCE 2.5)
@@ -608,35 +641,3 @@ Installation instructions can be found in the [Krkn Operator Installation Guide]
 
 Usage instructions and workflow examples can be found in the [Krkn Operator Usage Documentation](https://krkn-chaos.dev/docs/krkn-operator/installation/).
 
-## Red Hat Lightspeed advisor self-managed
-
-Red Hat Lightspeed advisor self-managed provides Insights recommendations for environments that **cannot reach console.redhat.com**. It is deployed as an ACM addon on the hub cluster: instead of sending their diagnostic archives to Red Hat's hosted Insights service, the Insights Operator of every managed cluster uploads them to the hub, where they are processed into cluster recommendations and upgrade risk predictions that are displayed directly in the ACM console.
-
-```mermaid
-flowchart LR
-    subgraph Managed Clusters
-    IO[Insights Operator]
-    end
-    subgraph Hub Cluster
-    IOP[Red Hat Lightspeed advisor self-managed]
-    ACM[ACM Console]
-    end
-    IO --> IOP
-    ACM --> IOP
-```
-
-**Repository**: [RedHatInsights/lightspeed-advisor-on-premise-ocp](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp)
-
-### Installation
-
-Installation instructions, including the list of prerequisites and the steps to verify the deployment, can be found in the [repository](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#deployment-to-acm-cluster).
-
-### Usage
-
-Once the addon is installed, it redirects the Insights endpoints of the managed clusters and of the ACM and MCE consoles to the Red Hat Lightspeed advisor self-managed service running on the hub cluster. Useful guides from the repository README:
-
-- [Viewing results in the ACM console](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#viewing-results-in-the-acm-console)
-- [Verifying the ACM console consumes data from advisor self-managed](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#verifying-the-acm-console-consumes-insights-on-prem)
-- [On-demand data gathering](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#on-demand-data-gathering)
-- [Triggering sample results](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#triggering-sample-results)
-- [Architecture](https://github.com/RedHatInsights/lightspeed-advisor-on-premise-ocp#architecture)
